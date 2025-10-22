@@ -11,6 +11,7 @@ import com.dumber.study.coroutine.CoroutineTest
 import com.dumber.study.dataBinding.DataBindingActivity
 import com.dumber.study.databinding.ActivityMainBinding
 import com.dumber.study.livedata.LiveDataActivity
+import com.dumber.study.rxkotlin.RxKotlinTest
 
 class MainActivity : AppCompatActivity() {
 
