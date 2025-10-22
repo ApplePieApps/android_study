@@ -11,6 +11,7 @@ import com.dumber.study.coroutine.CoroutineTest
 import com.dumber.study.dataBinding.DataBindingActivity
 import com.dumber.study.databinding.ActivityMainBinding
 import com.dumber.study.livedata.LiveDataActivity
+import com.dumber.study.okhttp.OKHttpActivity
 import com.dumber.study.rxkotlin.RxKotlinTest
 
 class MainActivity : AppCompatActivity() {
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         binding.btnDataBinding.setOnClickListener { startActivity(Intent(this, DataBindingActivity::class.java)) }
         binding.btnRoom.setOnClickListener { RoomTest().test() }
         binding.btnRetrofit.setOnClickListener { RetrofitTest().test() }
-        binding.btnOkHttp.setOnClickListener { OKHttpTest().test() }
+        binding.btnOkHttp.setOnClickListener { startActivity(Intent(this, OKHttpActivity::class.java)) }
 
     }
 
