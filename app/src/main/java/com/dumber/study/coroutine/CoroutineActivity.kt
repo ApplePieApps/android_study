@@ -1,5 +1,10 @@
 package com.dumber.study.coroutine
 
+import android.os.Bundle
+import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
+import com.dumber.study.R
+import com.dumber.study.databinding.ActivityCoroutineBinding
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
@@ -9,20 +14,43 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.withTimeoutOrNull
 
+class CoroutineActivity: AppCompatActivity() {
 
-class CoroutineTest {
+    lateinit var binding: ActivityCoroutineBinding
+    var chat = TestChat()
+    lateinit var etChat: EditText
 
-    fun test() {
-//        testLaunch()
-//        testAsync()
-//        testWithContext()
-//        testTimeout()
-        testExceptionHandler()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityCoroutineBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        etChat = findViewById(R.id.etChat)
+
+        binding.btnLaunch.setOnClickListener { testLaunch() }
+        binding.btnAsync.setOnClickListener { testAsync() }
+        binding.btnWithContext.setOnClickListener { testWithContext() }
+        binding.btnTimeout.setOnClickListener { testTimeout() }
+        binding.btnExceptionHandler.setOnClickListener { testExceptionHandler() }
+        binding.btnFlow.setOnClickListener { testFlow() }
+        binding.btnChat.setOnClickListener { testChat() }
+
+        val flow = chat.start()
+        CoroutineScope(Dispatchers.Main).launch {
+            flow.collect { println("Receive: $it") }
+        }
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        chat.stop()
     }
 
     fun testLaunch() {
@@ -100,10 +128,10 @@ class CoroutineTest {
     fun testExceptionHandler() {
         // Timeout과 같은 CancellationException은 CoroutineExceptionHandler에서 처리되지 않음
         CoroutineScope(Dispatchers.Main
-            + CoroutineName("testExceptionHandler")
-            + CoroutineExceptionHandler { context, e ->
-                println("Exception!! : $e")
-            }
+                + CoroutineName("testExceptionHandler")
+                + CoroutineExceptionHandler { context, e ->
+            println("Exception!! : $e")
+        }
         ).launch {
             try {
                 withTimeout(100) {
@@ -115,6 +143,35 @@ class CoroutineTest {
                 throw Exception("Timeout!!!")
             }
         }
+    }
+
+    fun testFlow() {
+        val flow1 = (1..3).asFlow()
+        CoroutineScope(Dispatchers.IO).launch {
+            flow1.collect { value ->  println("Value:$value") }
+        }
+
+        val flow2 = flow {
+            repeat(10) {
+                emit(it)
+                delay(100)
+                if (it == 7)
+                    throw Exception("Hello")
+            }
+        }
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                flow2.collect { value -> println("Value:$value") }
+            } catch (e: Throwable) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun testChat() {
+        val message = etChat.text.toString()
+        if (message.isEmpty()) return
+        chat.send(message)
     }
 
 }

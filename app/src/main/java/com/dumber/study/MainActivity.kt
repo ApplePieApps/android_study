@@ -7,7 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.dumber.study.coroutine.CoroutineTest
+import com.dumber.study.coroutine.CoroutineActivity
 import com.dumber.study.dataBinding.DataBindingActivity
 import com.dumber.study.databinding.ActivityMainBinding
 import com.dumber.study.livedata.LiveDataActivity
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnRxKotlin.setOnClickListener { RxKotlinTest().test() }
-        binding.btnCoroutine.setOnClickListener { CoroutineTest().test() }
+        binding.btnCoroutine.setOnClickListener { startActivity(Intent(this, CoroutineActivity::class.java)) }
         binding.btnExecutor.setOnClickListener { ExecutorTest().test() }
         binding.btnViewModel.setOnClickListener { ViewModelTest().test() }
         binding.btnLiveData.setOnClickListener { startActivity(Intent(this, LiveDataActivity::class.java)) }
