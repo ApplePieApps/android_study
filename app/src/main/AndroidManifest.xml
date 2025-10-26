@@ -28,6 +28,7 @@
         <activity android:name=".dataBinding.DataBindingActivity" android:exported="false"/>
         <activity android:name=".okhttp.OKHttpActivity" android:exported="false"/>
         <activity android:name=".coroutine.CoroutineActivity" android:exported="false"/>
+        <activity android:name=".viewmodel.ViewModelActivity" android:exported="false"/>
 
     </application>
 

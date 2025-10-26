@@ -13,6 +13,7 @@ import com.dumber.study.databinding.ActivityMainBinding
 import com.dumber.study.livedata.LiveDataActivity
 import com.dumber.study.okhttp.OKHttpActivity
 import com.dumber.study.rxkotlin.RxKotlinTest
+import com.dumber.study.viewmodel.ViewModelActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         binding.btnRxKotlin.setOnClickListener { RxKotlinTest().test() }
         binding.btnCoroutine.setOnClickListener { startActivity(Intent(this, CoroutineActivity::class.java)) }
         binding.btnExecutor.setOnClickListener { ExecutorTest().test() }
-        binding.btnViewModel.setOnClickListener { ViewModelTest().test() }
+        binding.btnViewModel.setOnClickListener { startActivity(Intent(this, ViewModelActivity::class.java)) }
         binding.btnLiveData.setOnClickListener { startActivity(Intent(this, LiveDataActivity::class.java)) }
         binding.btnDataBinding.setOnClickListener { startActivity(Intent(this, DataBindingActivity::class.java)) }
         binding.btnRoom.setOnClickListener { RoomTest().test() }
