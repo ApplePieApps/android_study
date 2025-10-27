@@ -44,18 +44,10 @@ class FoodListAdapter(val onMore: (() -> Unit)?): RecyclerView.Adapter<FoodViewH
 
     @SuppressLint("NotifyDataSetChanged")
     fun update(state: FoodListState) {
-        when(state.event) {
-            FoodListEvent.List -> {
-                items.clear()
-                items.addAll(state.items)
-                notifyDataSetChanged()
-            }
-            FoodListEvent.MoreList -> {
-                items.addAll(state.items)
-                notifyDataSetChanged()
-            }
-            else -> {}
-        }
+        if (state.isLoading) return
+        items.clear()
+        items.addAll(state.items)
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = items.size
