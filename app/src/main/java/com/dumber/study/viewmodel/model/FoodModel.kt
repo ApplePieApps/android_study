@@ -9,9 +9,7 @@ object FoodModel {
 
     private var instance: Retrofit? = null
 
-    val foodApiService: FoodApiService by lazy {
-        getRetrofit().create(FoodApiService::class.java)
-    }
+    val foodApiService: FoodApiService = getRetrofit().create(FoodApiService::class.java)
 
     private fun getRetrofit(): Retrofit {
         if (instance == null) {
